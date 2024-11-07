@@ -30,6 +30,10 @@ class MessagesResource extends APIResource
 
     private ?int $topK = null;
 
+    private ?array $tools = null;
+
+    private ?array $toolChoice = null;
+
     public function model(string $model): self
     {
         $this->model = $model;
@@ -100,6 +104,18 @@ class MessagesResource extends APIResource
         return $this;
     }
 
+    public function tools(array $tools): self
+    {
+        $this->tools = $tools;
+        return $this;
+    }
+
+    public function toolChoice(string|array $toolChoice): self
+    {
+        $this->toolChoice = $toolChoice;
+        return $this;
+    }
+
     public function create(array $options = [], array $extraHeaders = []): Response
     {
         $this->validateOptions($options);
@@ -127,6 +143,8 @@ class MessagesResource extends APIResource
             'temperature' => $this->temperature,
             'top_p' => $this->topP,
             'top_k' => $this->topK,
+            'tools' => $this->tools,
+            'tool_choice' => $this->toolChoice,
         ]);
 
         return [
@@ -148,6 +166,8 @@ class MessagesResource extends APIResource
         $this->temperature = $options['temperature'] ?? $this->temperature;
         $this->topP = $options['top_p'] ?? $this->topP;
         $this->topK = $options['top_k'] ?? $this->topK;
+        $this->tools = $options['tools'] ?? $this->tools;
+        $this->toolChoice = $options['tool_choice'] ?? $this->toolChoice;
 
         if (empty($this->model)) {
             throw new InvalidArgumentException('Model is required.');
