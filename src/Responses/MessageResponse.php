@@ -22,6 +22,8 @@ class MessageResponse extends Response
 
     public Usage $usage;
 
+    public ?array $toolCalls;
+
     public function __construct(protected ResponseInterface $response)
     {
         $data = json_decode($this->response->getBody()->getContents(), true);
@@ -34,6 +36,7 @@ class MessageResponse extends Response
         $this->stopReason = $data['stop_reason'];
         $this->stopSequence = $data['stop_sequence'];
         $this->usage = new Usage($data['usage']);
+        $this->toolCalls = $data['tool_calls'] ?? null;
     }
 }
 
